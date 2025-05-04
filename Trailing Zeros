@@ -1,0 +1,53 @@
+Trailing Zeros:
+
+Count the number of trailing 0s in the factorial of a given number.
+
+Input Format
+The first line of input contains T - the number of test cases. It is followed by T lines, each containing an integer N.
+
+Output Format
+For each test case, print the number of trailing 0s in N!, separated by a new line.
+
+Constraints
+1 <= T <= 10000
+1 <= N <= 1015
+
+Example
+Input
+3
+2
+5
+100
+
+Output
+0
+1
+24
+
+Explanation
+2! = 2 [No trailing zeros]
+5! = 120 [Trailing zeros=1]
+
+code:
+#include <stdio.h>
+#include <stdlib.h>
+#include<math.h>
+long long int trailing_zeros(long long int n){
+    long long int count=0;
+    while(n>=5){
+        n=floor(n/5);
+        count+=n;      
+   }
+    return count;
+}
+int main() {
+    long long int t;
+    scanf("%lld",&t);
+    while(t!=0){
+        long long int n;
+        scanf("%lld",&n);
+        printf("%lld\n",trailing_zeros(n));
+        t--;
+    }  
+    return 0;
+}
