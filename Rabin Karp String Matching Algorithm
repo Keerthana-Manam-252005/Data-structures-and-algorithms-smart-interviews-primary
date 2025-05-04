@@ -1,0 +1,65 @@
+Rabin Karp String Matching Algorithm:
+
+Given 2 strings A and B, find the number of occurrences of A in B as a substring.
+
+Note: 
+ Solve using the Rabin-Karp string matching algorithm. Do not use an inbuilt library.  Input Format
+The first line of input contains T - the number of test cases. It's followed by T lines. Each line contains 2 strings - A and B, separated by space.
+
+Output Format
+For each test case, print the number of occurrences of A in B, separated by a new line.
+
+Constraints
+30 points
+1 <= len(A), len(B) <= 1000
+
+70 points
+1 <= len(A), len(B) <= 10001
+
+General Constraints
+1 <= T <= 2000
+'a' <= A[i], B[i] <= 'z'
+
+Example
+Input
+4
+smart yekicmsmartplrplsmartrplplmrpsmartrpsmartwmrmsmartsmart
+interviews interviewseiwcombvinterviewskrenlzp
+ds dsdsajdsrjjdsjjj
+algo yalgoalgoalgopalgoaxalgoasaxalgolalgoalgoalgo
+
+Output
+6
+2
+4
+9
+
+code:
+def RabinKarp(a,b):
+    hA,hB=0,0
+    p=31
+    p1=1
+    p2=1
+    count=0
+    if len(a)>len(b):
+        return 0
+    for i in range(len(a)): 
+        hB=(hB+((ord(b[i])-ord('a')+1)*p1)%MOD)%MOD
+        hA=(hA+((ord(a[i])-ord('a')+1)*p1)%MOD)%MOD
+        p1=(p1*p)%MOD
+    if hA==hB:
+        count+=1
+    for i in range(len(a),len(b)):
+        hB=((hB+((ord(b[i])-ord('a')+1)*p1)%MOD)%MOD - (((ord(b[i-len(a)])-ord('a')+1)*p2)%MOD)%MOD+MOD)%MOD
+        hA=(hA*p)%MOD
+        if hA==hB:
+            count+=1
+        p2=(p2*p)%MOD
+        p1=(p1*p)%MOD
+    return count
+t=int(input())
+for _ in range(t):
+    a,b=input().split()
+    p=31
+    MOD=1000000007
+    print(RabinKarp(a,b))
