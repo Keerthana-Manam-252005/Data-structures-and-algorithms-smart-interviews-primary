@@ -1,0 +1,72 @@
+Generating String Permutations:
+
+Given a string without duplicates, print all the permutations of the string in a lexicographical order.
+
+Note: 
+ Do not use any inbuilt functions / libraries for your main logic.  Input Format
+The first line of input contains T - the number of test cases. It's followed by T lines, each containing a single string consisting only of lowercase English alphabets.
+
+Output Format
+For each test case, print the test case number as shown, followed by all the permutations of the string in a lexicographic order, separated by a new line.
+
+Constraints
+1 <= T <= 100
+1 <= len(str) <= 8
+
+Example
+Input
+2
+algo
+ds
+
+Output
+Test Case #1:
+aglo
+agol
+algo
+alog
+aogl
+aolg
+galo
+gaol
+glao
+gloa
+goal
+gola
+lago
+laog
+lgao
+lgoa
+loag
+loga
+oagl
+oalg
+ogal
+ogla
+olag
+olga
+Test Case #2:
+ds
+sd
+
+code:
+def permutations(index,s,res):
+    if index==len(s):
+        res.append("".join(s))
+        return
+    for i in range(index,len(s)):
+        s[index],s[i]=s[i],s[index]
+        permutations(index+1,s,res)
+        s[index],s[i]=s[i],s[index]
+def generate_substrings(s):
+    res=[]
+    permutations(0,list(s),res)
+    res.sort()
+    return res
+t=int(input())
+for i in range(1,t+1):
+    s=input()
+    print(f"Test Case #{i}:")
+    ans=generate_substrings(s)
+    for a in ans:
+        print(a)
