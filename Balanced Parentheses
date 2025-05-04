@@ -1,0 +1,73 @@
+Balanced Parentheses:
+
+Write a program to generate all possible strings with balanced parentheses having N pairs of curly braces.
+
+Input Format
+The first line of input contains T - the number of test cases. It's followed by T lines, each containing a single integer N.
+
+Output Format
+For each test case, print each combinational pair of balanced parenthesis of length N in a lexicographical order along with the test case number, separated by a new line.
+
+Constraints
+1 <= T <= 12
+1 <= N <= 12
+
+Example
+Input
+2
+3
+2
+
+OutputTest Case #1:
+{{{}}}
+{{}{}}
+{{}}{}
+{}{{}}
+{}{}{}
+Test Case #2:
+{{}}
+{}{}
+
+
+code:
+def parenthesis(n,idx,op,cl,s):
+    if idx==2*n:
+        print(''.join(map(str,s)))
+        return 
+    if op<n:
+        s[idx]='{'
+        parenthesis(n,idx+1,op+1,cl,s)
+    if cl<op:
+        s[idx]='}'
+        parenthesis(n,idx+1,op,cl+1,s)
+t=int(input())
+for i in range(t):
+    n=int(input())
+    print(f"Test Case #{i+1}:")
+    s=['']*(2*n)
+    parenthesis(n,0,0,0,s)
+
+or 
+
+def g_parenthesis(n):
+    def backtrack(open_parenthesis,closed_parenthesis,path):
+        if len(path)==2*n:
+            res.append("".join(path))
+            return
+        if open_parenthesis<n:
+            path.append("{")
+            backtrack(open_parenthesis+1,closed_parenthesis,path)
+            path.pop()
+        if closed_parenthesis<open_parenthesis:
+            path.append("}")
+            backtrack(open_parenthesis,closed_parenthesis+1,path)
+            path.pop()
+    res=[]
+    backtrack(0,0,[])
+    return res
+t=int(input())
+for i in range(t):
+    n=int(input())
+    print(f"Test Case #{i+1}:")
+    for parenthesis in g_parenthesis(n):
+        print(parenthesis)
