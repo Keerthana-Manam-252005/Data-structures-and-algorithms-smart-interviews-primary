@@ -1,0 +1,80 @@
+Spiral Pattern:
+
+Print the given spiral pattern using '*'. See the example for more details.
+
+Input Format
+The first line of input contains T - the number of test cases. It is followed by T lines, each line contains a single integer N - the size of the pattern.
+
+Output Format
+For each test case, print the test case number as shown, followed by the pattern, separated by a new line.
+
+Constraints
+1 <= T <=100
+1 <= N <=100
+
+Example
+Input
+2
+5
+10
+
+OutputCase #1:
+* * * * * 
+        * 
+* * *   * 
+*       * 
+* * * * * 
+Case #2:
+* * * * * * * * * * 
+                  * 
+* * * * * * * *   * 
+*             *   * 
+*   * * * *   *   * 
+*   *     *   *   * 
+*   *         *   * 
+*   * * * * * *   * 
+*                 * 
+* * * * * * * * * * 
+
+code:
+def spiral_pattern(n):
+    matrix=[[' ' for i in range(n)] for j in range(n)]
+    top,left=0,0
+    bottom,right=n-1,n-1
+    while(top<=bottom and left<=right):
+        for i in range(left,right+1):
+            matrix[top][i]='*'
+        top+=1
+        for i in range(top,bottom+1):
+            matrix[i][right]='*'
+        right-=1
+        top+=1
+        if (left<right-1):
+            if (left==0):
+                for i in range(right,left-1,-1):
+                    matrix[bottom][i]='*'
+                bottom-=1
+                right-=1
+            else:
+                for i in range(right,left,-1):
+                    matrix[bottom][i]='*'
+                bottom-=1
+                right-=1
+                left+=1
+        for i in range(bottom,top-1, -1):
+            matrix[i][left]='*'
+        bottom-=1
+        left+=1
+    return matrix
+t=int(input())
+for i in range(t):
+    n=int(input())
+    print(f"Case #{i+1}:")
+    if (n==2):
+        print('* *')
+        print('* *')
+    else:
+        ans=spiral_pattern(n)
+        for i in ans:
+            print(*i)
+        print( )
