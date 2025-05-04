@@ -1,0 +1,75 @@
+Spiral Traversal of Matrix:
+
+Given a 2D square matrix, print the matrix in a spiral order. Refer to examples for more details. From an interview's point of view, after you scan the matrix in a 2D array, try to print the matrix in a spiral order without using any extra space.
+
+Input Format
+The first line of input contains T - the number of test cases. The first line of each test case contains N - the size of the matrix [NxN]. It is followed by N lines each containing N integers - matrix elements.
+
+Output Format
+For each test case, print the matrix in a spiral order, separated by newline.
+
+Constraints
+1 <= T <= 100
+1 <= N <= 100
+-100 <= ar[i][j] <= 100
+
+Example
+Input
+4
+1
+1
+2
+1 2
+4 3
+3
+1 2 3
+8 9 4
+7 6 5
+5
+-44 25 -52 69 -5
+17 22 51 27 -44
+-79 28 -78 1 -47
+65 -77 -14 -21 -6
+-96 43 -21 -20 90
+
+Output
+1
+1 2 3 4
+1 2 3 4 5 6 7 8 9
+-44 25 -52 69 -5 -44 -47 -6 90 -20 -21 43 -96 65 -79 17 22 51 27 1 -21 -14 -77 28 -78
+
+code:
+t = int(input())
+for _ in range(t):
+    n = int(input())
+    a = []
+    for i in range(n):
+        temp = [int(i) for i in input().split()]
+        a.append(temp)
+    rmin = 0
+    rmax = n-1
+    cmin = 0
+    cmax = n-1
+    count = 0
+    while(count<n*n):
+        # top boundary
+        for i in range(rmin,cmax+1):
+            print(a[rmin][i],end=" ")
+            count+=1
+        rmin+=1
+        # right
+        for i in range(rmin,rmax+1):
+            print(a[i][cmax],end=" ")
+            count+=1
+        cmax-=1
+        # bottom
+        for i in range(cmax,cmin-1,-1):
+            print(a[rmax][i],end=" ")
+            count+=1
+        rmax-=1
+        # left
+        for i in range(rmax,rmin-1,-1):
+            print(a[i][cmin],end=" ")
+            count+=1
+        cmin+=1
+    print()
