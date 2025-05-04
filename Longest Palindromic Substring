@@ -1,0 +1,66 @@
+Longest Palindromic Substring:
+
+Given a string, find the length of the Longest Palindromic Substring (LPS).
+
+Input Format
+The first line of input contains T - the number of test cases. It's followed by 2T lines. The first line has N - the size of the string and the second line contains a string of size N.
+
+Output Format
+Print the length of the LPS for each test case, separated by a new line.
+
+Constraints
+30 points
+1 <= T <= 200
+1 <= len(S) <= 100
+'a' <= S[i] <= 'z'
+
+70 points
+1 <= T <= 200
+1 <= len(S) <= 103
+'a' <= S[i] <= 'z'
+
+General Constraints
+'a' <= S[i] <= 'z'
+
+Example
+Input
+5
+8
+pfyafafd
+9
+sllwffoqq
+6
+yoogvb
+4
+hcch
+23
+mzmqnnrkurfmmfrukrnnqsm
+
+Output
+3
+2
+2
+4
+18
+
+code:
+def longest_palindromic_substring(s):
+    def c(s,p1,p2):
+        while p1>=0 and p2<len(s) and s[p1]==s[p2]:
+            p1-=1
+            p2+=1
+        return p2-p1-1
+    max_len=0
+    for i in range(len(s)):
+        #odd len palindrome
+        l=c(s,i,i)
+        max_len=max(max_len,l)
+        #even len palindrome
+        l=c(s,i,i+1)
+        max_len=max(max_len,l)
+    return max_len
+t=int(input())
+for _ in range(t):
+    n=int(input())
+    s=input()
+    print(longest_palindromic_substring(s))
