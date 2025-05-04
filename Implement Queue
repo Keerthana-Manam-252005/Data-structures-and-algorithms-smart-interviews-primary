@@ -1,0 +1,58 @@
+Implement Queue:
+
+Implement the Queue data structure and perform Enqueue / Dequeue operations.
+
+Note: 
+ Do not use any inbuilt functions / libraries for the Queue.  Input Format
+The first line of input contains T - number of operations. It is followed by T lines, each line contains either "Enqueue x" or "Dequeue".
+
+Output Format
+For each "Dequeue" operation, print the dequeued element, separated by a newline. If the queue is empty, print "Empty".
+
+Constraints
+1 <= T <= 10000
+-100 <= x <= 100
+
+Example
+Input
+8
+Enqueue 5
+Dequeue
+Dequeue
+Enqueue 10
+Enqueue -15
+Dequeue
+Enqueue -10
+Dequeue
+
+Output
+5
+Empty
+10
+-15
+
+code:
+class Queue:
+    def __init__(self):
+        self.queue=[]
+        self.front=0
+    def enqueue(self,x):
+        self.queue.append(x)
+    def dequeue(self):
+        if self.front==len(self.queue):
+            return 'Empty'
+        else:
+            value=self.queue[self.front]
+            self.front+=1
+            return value
+t=int(input())
+queue=Queue()
+res=[]
+for _ in range(t):
+    c=input().strip()
+    if c.startswith('Enqueue'):
+        _,x=c.split()
+        queue.enqueue(int(x))
+    elif c=='Dequeue':
+        res.append(queue.dequeue())
+print("\n".join(map(str,res)))
