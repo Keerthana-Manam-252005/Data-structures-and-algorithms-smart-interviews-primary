@@ -1,0 +1,60 @@
+LRU Cache:
+
+Design and implement a data structure for the Least Recently Used (LRU) cache. Given a list of page numbers, insert them in a cache of size K in an LRU fashion. This simply means that when the cache is full and a new entry comes, you need to replace the Least Recently Used entry in the cache with the latest entry.
+
+Input Format
+The first line of input contains T - the number of test cases. It is followed by 2T lines. The first line of each test case contains N and K - the number of pages and the cache size. Second, each includes a list of N page numbers separated by space.
+
+Output Format
+For each test case, print the final contents of the cache in an LRU fashion, separated by a newline.
+
+Constraints
+1 <= p[i] <= 100000
+1 <= T <= 1000
+
+50 points
+1 <= N, K <= 100
+
+100 points
+1 <= N, K <= 5000
+
+Example
+Input
+3
+5 3
+3 8 2 8 1 
+8 5
+4 7 3 10 7 8 5 3 
+10 5
+6 5 6 2 3 14 2 1 10 10 
+
+Output
+2 8 1 
+10 7 8 5 3 
+3 14 2 1 10 
+
+code:
+from collections import OrderedDict
+class LRUcache:
+    def __init__(self,capacity):
+        self.hm=OrderedDict()
+        self.maxCapacity=capacity
+    def put(self,key):
+        if key in self.hm:
+            self.hm.move_to_end(key)
+        self.hm[key]=None
+        if len(self.hm)>self.maxCapacity:
+            self.hm.popitem(last=False)
+    def get(self):
+        return list(self.hm.keys())
+def solve(k,page):
+    cache=LRUcache(k)
+    for i in page:
+        cache.put(i)
+    return cache.get()
+t=int(input())
+for _ in range(t):
+    n,k=map(int,input().split())
+    page=list(map(int,input().split()))
+    ans=solve(k,page)
+    print(' '.join(map(str,ans)))
