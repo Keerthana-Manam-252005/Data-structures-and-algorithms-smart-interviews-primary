@@ -1,0 +1,60 @@
+Tower of Hanoi Modified:
+
+The Tower of Hanoi (also called the Tower of Brahma or Lucas') is a mathematical game or puzzle. It consists of three rods, and a number of disks of different sizes which can slide onto any rod. The puzzle starts with the disks in a neat stack in ascending order of size on one rod, the smallest at the top, thus making a conical shape.
+
+The objective of the puzzle is to move the entire stack to another rod, obeying the following simple rules:
+Only one disk can be moved at a time.Each move consists of taking the upper disk from one of the stacks and placing it on top of another stack i.e. a disk can only be moved if it is the uppermost disk on a stack.No disk may be placed on top of a smaller disk.You cannot move any disk directly from the first rod to last rod i.e., If you want to move a disk from the first rod to the last rod then you have to move disc from the first rod to the middle rod and then to the last one.You cannot move any disk directly from the last rod to first rod i.e., If you want to move a disk from the last rod to the first rod then you have to move disc from the last rod to the middle rod and then to the first one.Your task is that given N disks, print the minimum moves required to move the disks, as well as the actual moves.
+
+Assumptions
+The rods are named A, B and C.All the disks are initially placed on rod A.You have to move all the disks from rod A to rod C.
+Input Format
+The first line of input contains T - number of test cases. Its followed by T lines, each line containing a single number denoting the number of disks.
+
+Output Format
+For each test case, print the minimum number of moves required in order to solve the problem, followed by the actual moves, separated by newline. Refer sample output for more details.
+
+Constraints
+1 <= T <= 10
+1 <= N <= 10
+
+Example
+Input
+2
+1
+2
+
+Output
+2
+Move 1 from A to B
+Move 1 from B to C
+8
+Move 1 from A to B
+Move 1 from B to C
+Move 2 from A to B
+Move 1 from C to B
+Move 1 from B to A
+Move 2 from B to C
+Move 1 from A to B
+Move 1 from B to C
+
+code:
+def modified_TOH(n,a,b,c):
+    moves=[]
+    def move(n,a,b,c):
+        if n==0:
+            return
+        else:
+            move(n-1,a,b,c)
+            moves.append(f"Move {n} from {a} to {b}")
+            move(n-1,c,b,a)
+            moves.append(f"Move {n} from {b} to {c}")
+            move(n-1,a,b,c)
+    move(n,a,b,c)
+    return moves
+t=int(input())
+for _ in range(t):
+    n=int(input())
+    ans=modified_TOH(n,'A','B','C')
+    print(len(ans))
+    for i in ans:
+        print(i)
