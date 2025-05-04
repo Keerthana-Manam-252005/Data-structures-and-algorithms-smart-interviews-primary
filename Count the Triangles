@@ -1,0 +1,66 @@
+Count the Triangles:
+
+You have a collection of N rods. Each rod has a unique mark on it. You are given the lengths of each rod. You have to tell how many different triangles can be formed using these rods.
+
+Input Format
+The first line of input contains T - the number of test cases. It's followed by 2T lines, the first line contains N - the number of rods. The second line contains the lengths of the rods.
+
+Output Format
+For each test case, print the total number of different triangles possible, separated by new line.
+
+Constraints
+30 points
+1 <= T <= 100
+1 <= N <= 100
+1 <= A[i] <= 100000
+
+70 points
+1 <= T <= 100
+1 <= N <= 1000
+1 <= A[i] <= 100000
+
+Example
+Input
+2
+6
+20 67 72 83 23 59
+6
+4 2 10 12 8 10
+
+Output
+14
+10
+
+code:
+import java.util.*;
+public class Main {
+    public static void main(String[] args) {
+        Scanner s=new Scanner(System.in);
+        int T=s.nextInt();
+        for(int t = 0;t < T;t++){
+            HashMap<Integer,Integer> hm=new HashMap<>();
+            int n=s.nextInt();
+            int k=s.nextInt();
+            int[] ar=new int[n];
+            for(int a = 0;a < n;a++){
+                ar[a]=s.nextInt();
+            }
+            for(int i=0;i<k;i++){
+                hm.put(ar[i],hm.getOrDefault(ar[i],0)+1);
+            }
+            System.out.print(hm.size()+" ");
+            for(int j=k;j<n;j++){
+                if(hm.get(ar[j-k])==1){
+                    hm.remove(ar[j-k]);
+                }
+                else{
+                    hm.put(ar[j-k],hm.get(ar[j-k])-1);
+                }
+                hm.put(ar[j],hm.getOrDefault(ar[j],0)+1);
+                System.out.print(hm.size()+" ");
+            }
+            System.out.println();
+        }
+        s.close();
+    }
+}
