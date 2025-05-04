@@ -1,0 +1,79 @@
+Subsequence Sum:
+
+Given a sequence of N numbers: S1, ..., SN, determine how many subsequences of S have a sum between A and B inclusive.
+
+Input Format
+The first line of input contains T - the number of test cases. It's followed by 2T lines, the first line contains - N, A, and B separated by space. The next line contains the sequence of N numbers.
+
+Output Format
+For each test case, print the result, separated by a new line.
+
+Constraints
+30 points
+1 <= T <= 100
+1 <= N <= 15
+
+120 points
+1 <= T <= 100
+1 <= N <= 30
+
+General Constraints
+-107 <= A <= B <= 107
+-107 <= S[i] <= 107
+
+Example
+Input
+2
+3 -1 2
+1 -2 3
+5 5 15
+1 4 -3 6 4
+
+Output
+5
+20
+
+code:
+def checkbit(n,k):
+    return (n & (1<<k))!=0
+def generateSubsequences(a):
+    ans=[]
+    for i in range(1<<len(a)):
+        temp=0
+        for j in range(len(a)):
+            if checkbit(i,j):
+                temp+=a[j]
+        ans.append(temp)
+    return ans
+def FirstHalf(a,first):
+    low=0
+    high=len(a)
+    while low<high:
+        mid=(low+high)//2
+        if first<=a[mid]:
+            high=mid
+        else:
+            low=mid+1
+    return low
+def SecondHalf(a,second):
+    low=0
+    high=len(a)
+    while low<high:
+        mid=(low+high)//2
+        if second<a[mid]:
+            high=mid
+        else:
+            low=mid+1
+    return low
+t=int(input())
+for _ in range(t):
+    n,A,B=list(map(int,input().split()))
+    a=list(map(int,input().split()))
+    Part1=generateSubsequences(a[:(n//2)])
+    Part2=sorted(generateSubsequences(a[(n//2):]))
+    res=0
+    for i in Part1:
+        lower=FirstHalf(Part2,A-i)
+        higher=SecondHalf(Part2,B-i)
+        res+=(higher-lower)
+    print(res)
