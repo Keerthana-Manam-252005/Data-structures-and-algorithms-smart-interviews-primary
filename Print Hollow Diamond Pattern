@@ -1,0 +1,82 @@
+Print Hollow Diamond Pattern:
+
+Print a hollow diamond pattern using '*'. See examples for more details.
+
+Input Format
+The first line of input contains T - the number of test cases. It is followed by T lines, each line contains a single odd integer N - the size of the diamond.
+
+Output Format
+For each test case, print the test case number as shown, followed by the diamond pattern, separated by a new line.
+
+Constraints
+1 <= T <= 100
+3 <= N <= 201
+
+Example
+Input4
+3
+7
+5
+15
+
+OutputCase #1:
+ *
+* *
+ *
+Case #2:
+   *
+  * *
+ *   *
+*     *
+ *   *
+  * *
+   *
+Case #3:
+  *
+ * *
+*   *
+ * *
+  *
+Case #4:
+       *
+      * *
+     *   *
+    *     *
+   *       *
+  *         *
+ *           *
+*             *
+ *           *
+  *         *
+   *       *
+    *     *
+     *   *
+      * *
+       *
+
+code:
+#include <stdio.h>
+#include <stdlib.h>
+int main() {
+    int T;
+    scanf("%d",&T);
+    int x=1;
+    while(x<=T){
+        int N;
+        scanf("%d",&N);
+        int c = (N-1)/2;
+        printf("Case #%d:\n",x);
+        for(int i = 0;i<N;i++){
+            for(int j = 0;j<N;j++){
+                if ((i+j == c)||(j-i == c)||(i-j == c)||(i+j == (c*3))){
+                    printf("*");
+                } else{
+                    printf(" ");
+                }
+            }
+            printf("\n");
+        }
+        x++;
+    }
+    return 0;
+}
