@@ -1,0 +1,74 @@
+Prime Love:
+
+Lisa and Joey love prime numbers that don't contain 0 and they should remain prime after removing digits from the beginning. For example, they adore 3797 since 797, 97, and 7 are also prime. Your job is to find out the number of primes not greater than N, meeting Lisa and Joey's criteria.
+
+Input Format
+The first line of input contains T - the number of test cases. It's followed by T lines, each line containing a single number - N.
+
+Output Format
+For each test case, print the number of primes not greater than N, that Lisa and Joey love, separated by a new line.
+
+Constraints
+10 points
+1 <= T <= 103
+1 <= N <= 103
+
+40 points
+1 <= T <= 104
+1 <= N <= 104
+
+100 points
+1 <= T <= 106
+1 <= N <= 106
+
+Example
+Input
+3
+30
+100
+5
+
+Output
+7
+15
+3
+
+Explanation
+
+Example 1:
+Primes in [1, 30] are {2, 3, 5, 7, 11, 13, 17, 19, 23, 29}.
+11, 19, and 29, after removing the leading digits, will not be prime. All other primes are loved by Lisa and Joey.
+
+code:
+def sieve_of_eratosthenes(n):
+    prime=[True]*(n+1)
+    prime[0]=prime[1]=False
+    for i in range(2,int(n**0.5)+1):
+        if prime[i]:
+            for j in range(i*i,n+1,i):
+                prime[j]=False
+    return prime
+def hasZero(n):
+    return '0' in str(n)
+def isLovedPrime(n,prime):
+    if hasZero(n):
+        return False
+    str_n=str(n)
+    for i in range(len(str_n)):
+        if not prime[int(str_n[i:])]:
+            return False
+    return True
+def PrimeLove(n):
+    prime=sieve_of_eratosthenes(n)
+    LovedPrimeCount=[0]*(n+1)
+    for i in range(2,n+1):
+        LovedPrimeCount[i]=LovedPrimeCount[i-1]
+        if prime[i] and isLovedPrime(i,prime):
+            LovedPrimeCount[i]+=1
+    return LovedPrimeCount
+t=int(input())
+n=10**6
+q=[int(input()) for _ in range(t)]
+ans=PrimeLove(n)
+for i in q:
+    print(ans[i])
