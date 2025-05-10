@@ -1,0 +1,53 @@
+Compute nCr:
+
+Given n and r, compute nCr.
+
+Note: 
+Do not use BigInteger class, it defeats the purpose of the problem statement.  Input Format
+The first line of input contains T - number of test cases. It is followed by T lines, each line contains 2 integers - N and R.
+
+Output Format
+For each test case, print the value of nCr, separated by new line. Since the number can be very large, print result % 1000000007.
+
+Constraints
+20 points
+1 <= T <= 100
+0 <= N, R <= 30
+
+80 points
+1 <= T <= 500000
+0 <= N, R <= 2000
+
+Example
+Input
+5
+4 2
+3 1
+25 12
+30 14
+6 4
+
+Output
+6
+3
+5200300
+145422675
+15
+
+
+code:
+mod = 1000000007
+def ncr(N,R):
+    dp = [[0]*(R+1) for _ in range(N+1)]
+    for n in range(N+1):
+        for r in range(min(n,R)+1):
+            if r==0 or r==n:
+                dp[n][r] = 1
+            else:
+                dp[n][r] = (dp[n-1][r-1] + dp[n-1][r]) % mod
+    return dp
+solve = ncr(2000,2000)
+t=int(input())
+for _ in range(t):
+    N,R=list(map(int,input().split()))
+    print(str(solve[N][R]%mod)+'\n')
