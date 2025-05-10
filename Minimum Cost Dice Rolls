@@ -1,0 +1,42 @@
+Minimum Cost Dice Rolls:
+
+Given a standard 6-sided dice, find the minimum cost to get a sum of K by rolling a standard 6-sided dice any number of times. You are given the cost of each possible value of the dice, cost[i], where i ∈ [1, 6].
+
+Input Format
+The first line of input contains T - number of test cases. It is followed by 2T lines, first line contains K - the sum and second line contains cost of each possible value of the dice .
+
+Output Format
+For each test case, print the minimum cost to get sum of K, separated by newline.
+
+Constraints
+1 <= T <= 103
+1 <= K <= 104
+1 <= cost[i] <= 103
+
+Example
+Input
+2
+3
+1 4 3 2 6 10
+5
+12 1 100 20 39 32
+
+Output
+3
+14
+
+
+code:
+def min_cost(k,cost):
+    dp = [float('inf')]*(k+1)
+    dp[0] = 0
+    for i in range(1,k+1):
+        for j in range(1,7):
+            if (i-j)>=0:
+                dp[i] = min(dp[i], cost[j-1] + dp[i-j])
+    return dp[k]
+t = int(input())
+for _ in range(t):
+    k = int(input())
+    cost = list(map(int,input().split()))
+    print(min_cost(k,cost))
