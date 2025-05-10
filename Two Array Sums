@@ -1,0 +1,54 @@
+Two Array Sums:
+
+Given an integer N, determine if it's possible to create two non-empty arrays, A and B, such that:1 <= A[i], B[i] <= N, andThere are no common elements between A and B, andsum(A) = sum(B), andlen(A) + len(B) = NThe length of array A should be as small as possible and ensure that array A is lexicographically the largest. Refer example for more details.Input Format
+The first line of input contains T - the number of test cases. Its followed by T lines, each containing an integer N.
+
+Output Format
+For each test case, if it is possible, print YES, followed by array A and B, else print NO.
+
+Constraints
+1 <= T <= 100
+1 <= N <= 105
+
+Example
+Input
+3
+7
+6
+20
+
+Output
+YES
+7 6 1
+5 4 3 2
+NO
+YES
+20 19 18 17 16 15 
+14 13 12 11 10 9 8 7 6 5 4 3 2 1 
+
+Explanation
+Test Case 1:
+For N=7, we have 4 possible solutions:[7, 5, 2], [6, 1, 4, 3][7, 4, 2, 1], [6, 5, 3][7, 4, 3], [6, 5, 2, 1][7, 6, 1], [5, 4, 3, 2]Out of them, the last solution, with 
+A: [7, 6, 1], B: [5, 4, 3, 2] is the required solution having length of array A as small as possible and array A is lexicographically the largest.
+
+code:
+def a_sum(n):
+    total=(n*(n+1))//2
+    if total%2==0:
+        half_sum=total//2
+    else:
+        return 'NO'
+    a=[]
+    b=[]
+    add=0
+    for i in range(n,0,-1):
+        if add+i<=half_sum:
+            a.append(i)
+            add+=i
+        else:
+            b.append(i)
+    return f"YES\n{' '.join(map(str,a))}\n{' '.join(map(str,b))}"
+t=int(input())
+for i in range(t):
+    n=int(input())
+    print(a_sum(n))
