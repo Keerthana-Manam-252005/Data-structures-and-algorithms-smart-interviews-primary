@@ -1,0 +1,83 @@
+Max Pair Sums of 2 Arrays:
+
+Given 2 integer arrays - A & B, you can create new elements of the form: A[i] + B[j] where 0 <= i, j <= N-1. You have to print the highest K elements of the newly created elements.
+
+Input Format
+The first line of input contains T - the number of test cases. It's followed by 3T lines -
+1. The first line contains N: the size of the arrays and K: the number of elements to print.
+2. The second line contains N integers - the elements of A.
+3. The third line contains N integers - the elements of B.
+
+Output Format
+For each test case, print the highest K elements separated by space in a sorted order. Print a newline between outputs of different test cases.
+
+Constraints
+40 points
+1 <= T <= 100
+1 <= N <= 102
+1 <= K <= min(102, N*N)
+-104 <= A[i],B[i] <= 104
+
+60 points
+1 <= T <= 100
+1 <= N <= 103
+1 <= K <= min(103, N*N)
+-104 <= A[i],B[i] <= 104
+
+100 points
+1 <= T <= 100
+1 <= N <= 104
+1 <= K <= min(104, N*N)
+-104 <= A[i],B[i] <= 104
+
+Example
+Input
+2
+3 2
+2 -5 14 
+-12 5 -3 
+5 5
+-10 14 11 -5 12 
+16 -10 -3 13 11 
+
+Output
+19 11
+30 28 27 27 25
+
+Explanation
+
+Example 1:
+You can form the following new elements:
+2+(-12) = -10, 2+5 = 7, 2+(-3) = -1
+(-5)+(-12) = -17, (-5)+5 = 0, (-5)+(-3) = -8
+14+(-12) = 2, 14+5 = 19, 14+(-3) = 11
+Top 2 elements = 19, 11
+
+
+code:
+import heapq
+def maxsum(a,b,n,k):
+    maxheap=[]
+    a.sort(reverse=True)
+    b.sort(reverse=True)
+    heapq.heappush(maxheap,(-(a[0]+b[0]),0,0))
+    visited=set()
+    visited.add((0,0))
+    res=[]
+    for _ in range(k):
+        maxval,i,j=heapq.heappop(maxheap)
+        res.append(-maxval)
+        if i+1<n and (i+1,j) not in visited:
+            heapq.heappush(maxheap,(-(a[i+1]+b[j]),i+1,j))
+            visited.add((i+1,j))
+        if j+1<n and (i,j+1) not in visited:
+            heapq.heappush(maxheap,(-(a[i]+b[j+1]),i,j+1))
+            visited.add((i,j+1))
+    return res
+t=int(input())
+for _ in range(t):
+    n,k=map(int,input().split())
+    a=list(map(int,input().split()))
+    b=list(map(int,input().split()))
+    result=maxsum(a,b,n,k)
+    print(*result)
