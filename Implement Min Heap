@@ -1,0 +1,89 @@
+Implement Min Heap:
+
+Implement the Min Heap data structure and perform insert / delMin / getMin operations.
+
+Note: 
+ Do not use any inbuilt functions / libraries for the Heap.  Input Format
+The first line of input contains T - the number of operations. It's followed by T lines. Each line contains either "insert x" or "delMin" or "getMin".
+
+Output Format
+For each "getMin" operation, print the minimum element, separated by a newline. If the heap is empty, print "Empty".
+
+Constraints
+1 <= T <= 106
+-109 <= x <= 109
+
+Example
+Input
+10
+insert 5
+getMin
+delMin
+getMin
+insert -15
+insert 10
+insert -30
+getMin
+delMin
+getMin
+
+Output
+5
+Empty
+-30
+-15
+
+
+code:
+class MinHeap:
+    def __init__(self):
+        self.mh=[]
+    def Insert(self,x):
+        x = int(x)
+        self.mh.append(x)
+        self.percolate_up(len(self.mh)-1)
+    def Getmin(self):
+        if self.mh:
+            print(self.mh[0])
+        else:
+            print("Empty")
+    def Delmin(self):
+        if not self.mh:
+            return
+        last=len(self.mh)-1
+        self.mh[0],self.mh[last] = self.mh[last],self.mh[0]
+        self.mh.pop()
+        self.percolate_down(0)
+    def percolate_up(self,idx):
+        while idx>0:
+            parent = (idx-1)//2
+            if self.mh[idx]<self.mh[parent]:
+                self.mh[idx],self.mh[parent] = self.mh[parent],self.mh[idx]
+                idx = parent
+            else:
+                break
+    def percolate_down(self,idx):
+        size=len(self.mh)
+        while True:
+            smallest = idx
+            c1=2*idx+1
+            c2=2*idx+2
+            if c1<size and self.mh[c1]<self.mh[smallest]:
+                smallest = c1
+            if c2<size and self.mh[c2]<self.mh[smallest]:
+                smallest = c2
+            if smallest!=idx:
+                self.mh[idx],self.mh[smallest] = self.mh[smallest],self.mh[idx]
+                idx=smallest
+            else:
+                break
+t=int(input())
+mh=MinHeap()
+for _ in range(t):
+    x=input().split()
+    if x[0]=="insert":
+        mh.Insert(x[1])
+    if x[0]=="getMin":
+        mh.Getmin()
+    if x[0]=="delMin":
+        mh.Delmin()
