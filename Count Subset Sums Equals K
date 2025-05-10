@@ -1,0 +1,51 @@
+Count Subset Sums Equals K:
+
+Given an array of size N containing positive integers and a target sum K. Find the number of ways of selecting the elements from the array such that the sum of chosen elements is equal to the target K, since the number of ways can be very large, print answer modulo 1e9 + 7.
+
+Input Format
+The first line of input contains T - the number of test cases. It is followed by 2T lines. The first line of each test case contains the N - size of the array and the K - target sum. The second line contains N integers - elements of the array.
+
+Output Format
+Print the number of ways for each test case separated by a new line.
+
+Constraints
+30 points
+1 <= N <= 20
+
+70 points
+1 <= N <= 100
+
+General Constraints
+1 <= T <= 100
+1 <= K <= 103
+1 <= A[i] <= 103
+
+Example
+Input
+2
+4 5
+1 4 4 5
+3 4
+2 2 1
+
+Output
+3
+1
+
+
+code:
+mod = 1000000007
+def count_subset_sum(n,ar,k):
+    dp = [[0]*(k+1) for _ in range(n+1)]
+    dp[0][0]=1
+    for i in range(1,n+1):
+        for j in range(k+1):
+            dp[i][j] = dp[i-1][j] % mod
+            if ar[i-1]<=j:
+                dp[i][j] = (dp[i-1][j-ar[i-1]] + dp[i][j]) % mod
+    return dp[n][k]
+t = int(input())
+for _ in range(t):
+    n,k = map(int,input().split())
+    ar = list(map(int,input().split()))
+    print(count_subset_sum(n,ar,k))
