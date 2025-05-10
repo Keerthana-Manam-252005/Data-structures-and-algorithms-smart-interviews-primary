@@ -1,0 +1,71 @@
+Trim BST:
+
+You are given two integers L, R, and an array of unique elements, construct a Binary Search Tree from the array, and then trim the BST in a manner such that all its elements lie between [L, R].
+Trimming the tree should not change the relative structure of the elements that will remain in the tree (i.e., any node's descendant should remain a descendant).
+
+Input Format
+The first line of input contains T - the number of test cases. It's followed by 2T lines. The first line of each test case contains three integers, N - the number of nodes in the BST, L - the lower limit of the range, and R - the upper limit of the range. The next line contains N unique integers - value of the nodes.
+
+Output Format
+For each test case, print the preorder traversal of the trimmed tree, separated by a newline.
+
+Constraints
+1 <= T <= 1000
+1 <= N <= 1000
+0 <= ar[i] <= 10000
+
+Example
+Input
+3
+5 2 4
+1 2 3 4 5
+5 1 4
+3 2 4 1 5
+7 2 10
+4 5 15 0 1 7 17
+
+Output
+2 3 4
+3 2 1 4
+4 5 7
+
+code:
+class Node:
+    def __init__(self,data):
+        self.data=data
+        self.left=None
+        self.right=None
+def insert(root,data):
+    if root is None:
+        return Node(data)
+    if data<root.data:
+        root.left = insert(root.left,data)
+    if data>root.data:
+        root.right = insert(root.right,data)
+    return root
+def solve(root,l,r):
+    if root is None:
+        return root
+    if root.data<l:
+        return solve(root.right,l,r)
+    if root.data>r:
+        return solve(root.left,l,r)
+    root.left = solve(root.left,l,r)
+    root.right = solve(root.right,l,r)
+    return root
+def preorder(root):
+    if root is None:
+        return 
+    print(root.data,end=' ')
+    preorder(root.left)
+    preorder(root.right)
+t=int(input())
+for _ in range(t):
+    n,l,r=[int(i) for i in input().split()]
+    a=[int(i) for i in input().split()]
+    root=None
+    for i in a:
+        root=insert(root,i)
+    trim=solve(root,l,r)
+    preorder(trim)
+    print('\n')
