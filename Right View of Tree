@@ -1,0 +1,68 @@
+Right View of Tree:
+
+Given an array of unique elements, construct a Binary Search Tree and print the right-view of the tree. The right view of a tree is the set of nodes visible when the tree is viewed from the right side.
+
+Input Format
+The first line of input contains T - the number of test cases. It is followed by 2T lines. The first line of each test case contains N - the number of nodes in the BST. The next line contains N unique integers - the value of the nodes.
+
+Output Format
+For each test case, print the right view of the Binary Search Tree, separated by a new line.
+
+Constraints
+1 <= T <= 1000
+1 <= N <= 1000
+0 <= ar[i] <= 10000
+
+Input
+3
+5
+1 2 3 4 5 
+5
+3 2 4 1 5 
+7
+4 5 15 0 1 7 17 
+
+Output
+1 2 3 4 5 
+3 4 5 
+4 5 15 17 
+
+code:
+from collections import deque
+class Node:
+    def __init__(self,data):
+        self.data=data
+        self.left=None
+        self.right=None
+def insert(root,data):
+    if root is None:
+        return Node(data)
+    if data<root.data:
+        root.left=insert(root.left,data)
+    if data>root.data:
+        root.right=insert(root.right,data)
+    return root
+def rightView(root):
+    if not root:
+        return []
+    ans=[]
+    queue=deque([root])
+    while queue:
+        n=len(queue)
+        for i in range(n):
+            node=queue.popleft()
+            if i==n-1:
+                ans.append(node.data)
+            if node.left:
+                queue.append(node.left)
+            if node.right:
+                queue.append(node.right)
+    return ans
+t=int(input())
+for _ in range(t):
+    n=int(input())
+    a=list(map(int,input().split()))
+    root=None
+    for i in a:
+        root=insert(root,i)
+    print(*rightView(root))
