@@ -1,0 +1,73 @@
+Sum of Numbers from Root to Leaf Paths:
+
+Given an array of unique elements, construct a Binary Search Tree and print the sum of all the numbers formed along the path from the root node to the leaf nodes.
+
+Input Format
+The first line of input contains T - the number of test cases. It's followed by 2T lines. The first line of each test case contains N - the number of nodes in the BST. The next line contains N unique integers - value of the nodes.
+
+Output Format
+For each test case, print the sum separated by a newline. Since the output can be very large, print output % 1000000007.
+
+Constraints
+1 <= T <= 1000
+1 <= N <= 1000
+0 <= ar[i] <= 10000
+
+Example
+Input
+3
+5
+1 2 3 4 5
+5
+3 2 4 1 5
+7
+4 5 15 2 1 7 17
+
+Output
+12345
+666
+497095
+
+Explanation
+
+Example 1: 
+Total Sum = 12345
+
+Example 2: 
+Total Sum = 321 + 345 = 666
+
+Example 3: 
+Total Sum = 421 + 45157 + 451517 = 497095
+
+
+code:
+mod=1000000007
+class Node:
+    def __init__(self,data):
+        self.data=data
+        self.left=None
+        self.right=None
+def insert(root,data):
+    if root is None:
+        return Node(data)
+    if data<root.data:
+        root.left=insert(root.left,data)
+    if data>root.data:
+        root.right=insert(root.right,data)
+    return root
+def solve(root,prev):
+    if root is None:
+        return 0
+    prev = (prev*pow(10,len(str((root.data))))+root.data)%mod
+    if ((root.left is None) and (root.right is None)):
+        return prev%mod
+    return (solve(root.left,prev)+solve(root.right,prev))%mod
+t=int(input())
+for _ in range(t):
+    n=int(input())
+    a=list(map(int,input().split()))
+    root=None
+    for i in a:
+        root = insert(root,i)
+    prev=0
+    print(solve(root,prev))
