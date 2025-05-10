@@ -1,0 +1,84 @@
+Bottom-Up Level Order of Tree:
+
+Given an array of unique elements, construct a Binary Search Tree and print the Level Order of the tree, not top-down, but bottom-up.
+
+Input Format
+ The first line of input contains T - number of test cases. Its followed by 2T lines. First line of each test case contains N - number of nodes in the BST. The next line contains N unique integers - value of the nodes. 
+
+Output Format
+ For each test case, print the bottom-up Level Order of the Binary Search Tree, separate each level by newline. Separate the output of different test cases with an extra newline.
+
+Constraints
+ 1 <= T <= 1000 
+ 1 <= N <= 1000 
+ 0 <= ar[i] <= 10000 
+
+Example
+Input
+ 3
+ 5
+ 1 2 3 4 5
+ 5
+ 3 2 4 1 5
+ 7
+ 4 5 15 0 1 7 17
+
+Output
+ 5 
+ 4 
+ 3 
+ 2 
+ 1 
+
+ 1 5 
+ 2 4 
+ 3 
+
+ 7 17 
+ 1 15 
+ 0 5 
+ 4
+
+code:
+from collections import deque
+class Node:
+    def __init__(self,data):
+        self.data=data
+        self.left=None
+        self.right=None
+def insert(root,data):
+    if root is None:
+        return Node(data)
+    if data<root.data:
+        root.left = insert(root.left,data)
+    if data>root.data:
+        root.right = insert(root.right,data)
+    return root
+def bottomUP(root):
+    if not root:
+        return []
+    queue=deque([root])
+    levels=[]
+    while queue:
+        size=len(queue)
+        level_nodes=[]
+        for _ in range(size):
+            node=queue.popleft()
+            level_nodes.append(node.data)
+            if node.left:
+                queue.append(node.left)
+            if node.right:
+                queue.append(node.right)
+        levels.append(level_nodes)
+    return levels[::-1]
+t=int(input())
+for _ in range(t):
+    n=int(input())
+    arr=list(map(int,input().split()))
+    root=None
+    for i in arr:
+        root = insert(root,i)
+    ans=bottomUP(root)
+    for i in ans:
+        print(" ".join(map(str,i)))
+    print()
