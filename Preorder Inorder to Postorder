@@ -1,0 +1,67 @@
+Preorder Inorder to Postorder:
+
+Given the preorder and inorder traversals of a binary tree with unique elements, print the PostOrder Traversals of the tree.
+
+Input Format
+The first line of input contains T - the number of test cases. It's followed by 3T lines. The first line of each test case contains N - the number of nodes in the BST. The second line contains N unique integers denoting the preorder traversal of the tree. The third line contains N unique integers denoting the inorder traversal of the tree.
+
+Output Format
+For each test case, print the PostOrder Traversal of the Binary Tree, separated by a newline.
+
+Constraints
+1 <= T <= 1000
+1 <= N <= 1000
+0 <= ar[i] <= 10000
+
+Example
+Input
+3
+7
+1 2 4 5 3 6 7
+4 2 5 1 6 3 7
+10
+8 5 9 7 1 12 2 4 11 3
+9 5 1 7 2 12 8 4 3 11
+9
+2 7 3 6 8 11 5 9 4
+3 7 8 6 11 2 5 4 9
+
+Output
+4 5 2 6 7 3 1
+9 1 2 12 7 5 3 11 4 8
+3 8 11 6 7 4 9 5 2
+
+
+code:
+class Node:
+    def __init__(self,data):
+        self.data=data
+        self.left=None
+        self.right=None
+def solve(preorder,inorder,low,high):
+    global pos
+    if low>high:
+        return None
+    root_val = preorder[pos]
+    root = Node(root_val)
+    idx = inorder.index(root_val,low,high+1)
+    pos+=1
+    root.left = solve(preorder,inorder,low,idx-1)
+    root.right = solve(preorder,inorder,idx+1,high)
+    return root
+def postorder(root):
+    if root is None:
+        return 
+    postorder(root.left)
+    postorder(root.right)
+    print(root.data,end=' ')
+t=int(input())
+for _ in range(t):
+    n=int(input())
+    preorder=list(map(int,input().split()))
+    inorder=list(map(int,input().split()))
+    global pos
+    pos=0
+    root=solve(preorder,inorder,0,n-1)
+    postorder(root)
+    print('\n')
