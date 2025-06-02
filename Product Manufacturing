@@ -73,3 +73,51 @@ for _ in range(t):
     ans = product_manufacturing(M,ranges,Q,queries)
     for i in ans:
         print(i)
+
+(or)
+
+def productmanufacturing(m,ranges,q,queries):
+    def upperbound(arr,x):
+        low,high=0,len(arr)
+        while low<high:
+            mid=(low+high)//2
+            if arr[mid]<=x:
+                low=mid+1
+            else:
+                high=mid
+        return low
+    def lowerbound(arr,x):
+        low,high=0,len(arr)
+        while low<high:
+            mid=(low+high)//2
+            if arr[mid]<x:
+                low=mid+1
+            else:
+                high=mid
+        return low
+    starts,ends=[],[]
+    for s,e in ranges:
+        starts.append(s)
+        ends.append(e)
+    starts.sort()        
+    ends.sort()
+    ans=[]
+    for q in queries:
+        startcount=upperbound(starts,q)
+        endcount=lowerbound(ends,q)
+        ans.append(startcount-endcount)
+    return ans
+t=int(input())
+for _ in range(t):
+    m=int(input())
+    ranges=[]
+    for _ in range(m):
+        s,e =map(int,input().split())
+        ranges.append((s,e))
+    q=int(input())
+    queries=[]
+    for _ in range(q):
+        queries.append(int(input()))
+    res=productmanufacturing(m,ranges,q,queries)
+    for i in res:
+        print(i)
