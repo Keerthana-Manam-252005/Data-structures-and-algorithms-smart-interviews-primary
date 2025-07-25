@@ -1,0 +1,65 @@
+Shortest Path [Weighted Graph]:
+
+Given a simple, undirected, weighted graph with N vertices and M edges. Your task is to find the shortest distance from a given source node S to all other nodes in the graph.
+
+Input Format
+The first line of input contains an integer T - number of test cases. For each test case, the first line contains N - number of nodes, M - number of edges, and S - source node. It is followed by M lines, each line contain a triplet (u, v, w) - denoting an undirected edge between node u and node v with weight w.
+
+Output Format
+For each test case, output the shortest distance from the given source node S to all other nodes in the graph separated by space. If no path exists to a node, output -1.
+
+Constraints
+1 <= T <= 100
+1 <= N <= 105
+1 <= u, v, S <= N
+1 <= w <= 103
+
+Example
+Input
+2
+3 3 1
+1 2 1
+2 3 3
+3 1 6
+4 4 2
+1 2 3
+2 4 5
+3 1 6
+2 3 10
+
+Output
+0 1 4
+3 0 9 5
+
+code:
+import heapq
+from collections import defaultdict
+def shortest_path(adj,n,m,s):
+    dist = [float('inf')]*(n+1)
+    dist[s] = 0
+    heap = [(0,s)]
+    while heap:
+        curdist,u = heapq.heappop(heap)
+        if curdist>dist[u]:
+            continue
+        for v,w in adj[u]:
+            if dist[u]+w < dist[v]:
+                dist[v] = dist[u] + w
+                heapq.heappush(heap,((dist[v],v)))
+    res = []
+    for i in range(1,n+1):
+        if dist[i]==float('inf'):
+            res.append(-1)
+        else:
+            res.append(dist[i])
+    return res
+t = int(input())
+for _ in range(t):
+    n,m,s = map(int,input().split())
+    adj = defaultdict(list)
+    for _ in range(m):
+        u,v,w = map(int,input().split())
+        adj[u].append((v,w))
+        adj[v].append((u,w))
+    ans = shortest_path(adj,n,m,s)
+    print(*ans)
