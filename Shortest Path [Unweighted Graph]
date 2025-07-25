@@ -1,0 +1,53 @@
+Shortest Path [Unweighted Graph]:
+
+Given a simple, undirected, unweighted graph with N vertices and M edges. Your task is to find the shortest distance from a given source node S to all other nodes in the graph.
+
+Input Format
+The first line of input contains an integer T - number of test cases. For each test case, the first line contains N - number of nodes, M - number of edges, and S - source node. It is followed by M lines, each line contain (u, v) - denoting an undirected edge between node u and node v.
+
+Output Format
+For each test case, output the shortest distance from the given source node S to all other nodes in the graph separated by space. If no path exists to a node, output -1.
+
+Constraints
+1 <= T <= 100
+1 <= N <= 105
+1 <= u, v, S <= N
+
+Example
+Input
+2
+3 2 1
+1 2
+2 3
+5 4 2
+1 2
+1 3
+3 4
+1 4
+
+Output
+0 1 2
+1 0 2 2 -1
+
+code:
+from collections import deque
+def BFS(S,G):
+    dist = [-1]*(N+1)
+    dist[S] = 0
+    queue = deque([S])
+    while queue:
+        node = queue.popleft()
+        for neighbour in G[node]:
+            if dist[neighbour]==-1:
+                dist[neighbour]=dist[node]+1
+                queue.append(neighbour)
+    return dist[1:]
+T = int(input())
+for _ in range(T):
+    N,M,S = map(int,input().split())
+    G = [[] for _ in range(N+1)]
+    for i in range(M):
+        U,V = map(int,input().split())
+        G[U].append(V)
+        G[V].append(U)
+    print(*BFS(S,G))
