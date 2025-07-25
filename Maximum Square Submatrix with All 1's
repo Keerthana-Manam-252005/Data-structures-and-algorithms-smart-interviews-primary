@@ -1,0 +1,45 @@
+Maximum Square Submatrix with All 1's:
+
+Given a matrix of size MxN with 0's and 1's, find the area of maximum sized square submatrix with all 1's.
+
+Input Format
+The first line of input contains T - number of test cases. First line of each testcase contains 2 integers M and N and it is followed by M lines each containing N numbers.
+
+Output Format
+For each test case, print the area of maximum sized square submatrix with all 1's, separated by new line.
+
+Constraints
+1 <= T <= 50
+1 <= M, N <= 1000
+
+Example
+Input
+1
+4 4
+0110
+1111
+1111
+1100
+
+Output
+4
+
+code:
+def max_square_submatrix_with_all_1(m,n,mat):
+    dp = [[0]*n for _ in range(m)]
+    max_side = 0
+    for i in range(m):
+        for j in range(n):
+            if mat[i][j]=='1':
+                if i==0 or j==0:
+                    dp[i][j] = 1
+                else: 
+                    dp[i][j] = min(dp[i-1][j],dp[i][j-1],dp[i-1][j-1]) + 1
+                max_side = max(max_side,dp[i][j])
+    area = max_side*max_side
+    return area
+t = int(input())
+for _ in range(t):
+    m,n = list(map(int,input().split()))
+    mat = [input().strip() for _ in range(m)]
+    print(max_square_submatrix_with_all_1(m,n,mat))
