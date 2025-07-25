@@ -1,0 +1,66 @@
+Maximum Submatrix with All 1's:
+
+Given a matrix of size MxN with 0's and 1's, find the area of maximum sized submatrix with all 1's.
+
+Input Format
+The first line of input contains T - number of test cases. First line of each testcase contains 2 integers M and N and it is followed by M lines each containing N numbers.
+
+Output Format
+For each test case, print the area of maximum sized submatrix with all 1's, separated by new line.
+
+Constraints
+50 points
+1 <= T <= 100
+1 <= M, N <= 200
+
+100 points
+1 <= T <= 100
+1 <= M, N <= 500
+
+Example
+Input
+2
+4 4
+0110
+1111
+1111
+1100
+1 6
+110111
+
+Output
+8
+3
+
+code:
+def max_histogram_area(heights):
+    stack = []
+    max_area = 0
+    index = 0
+    heights.append(0)
+    while index<len(heights):
+        if not stack or heights[index]>=heights[stack[-1]]:
+            stack.append(index)
+            index+= 1
+        else:
+            top = stack.pop()
+            width = index if not stack else index-stack[-1]-1
+            max_area = max(max_area,heights[top]*width)
+    heights.pop()
+    return max_area
+def maximum_submatrix_with_all_1(m,n,mat):
+    heights = [0]*n
+    max_area = 0
+    for i in range(m):
+        for j in range(n):
+            if mat[i][j]=='1':
+                heights[j]+= 1
+            else:
+                heights[j] = 0
+        max_area = max(max_area,max_histogram_area(heights[:]))
+    return max_area 
+t = int(input())
+for _ in range(t):
+    m,n = map(int,input().split())
+    mat = [input().strip() for _ in range(m)]
+    print(maximum_submatrix_with_all_1(m,n,mat))
