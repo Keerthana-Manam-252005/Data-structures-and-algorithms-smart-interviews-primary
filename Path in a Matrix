@@ -1,0 +1,70 @@
+Path in a Matrix:
+
+Given a matrix, find the number of ways to reach from the top-left cell to the right-bottom cell. At any step, from the current cell (i,j) you can either move to (i+1,j) or (i,j+1) or (i+1, j+1). Please note that certain cells are forbidden and cannot be used.
+
+Input Format 
+The first line of input contains T - number of test cases. First line of each test case contains N, M - size of the matrix and B - number of forbidden cells. It is followed by B lines each containing a pair (i,j) - index of the forbidden cell.
+
+Output Format
+For each test case, print the number of ways, separated by new line. Since the output can be very large, print output % 1000000007.
+
+Constraints
+30 points
+1 <= N, M <= 10
+
+70 points
+1 <= N, M <= 100
+
+General Constraints
+1 <= T <= 500
+0 <= i < N
+0 <= j < M
+
+Example
+Input
+5
+5 2 1
+2 0
+7 3 1
+1 0
+6 3 1
+5 2
+2 9 1
+0 1
+5 6 2
+0 1
+1 0
+
+Output
+4
+24
+0
+2
+129
+
+code:
+mod = 1000000007
+t = int(input())
+for _ in range(t):
+    n,m,b = list(map(int,input().split()))
+    mat = [[-1]*(m) for i in range(n)]
+    for cell in range(b):
+        i,j = list(map(int,input().split()))
+        mat[i][j] = 0
+    if mat[0][0]==0:
+        print(0)
+    else:
+        mat[0][0]=1
+        for i in range(n):
+            for j in range(m):
+                if i==0 and j==0:
+                    continue
+                if mat[i][j]!=0:
+                    mat[i][j] = 0
+                    if i>0:
+                        mat[i][j]+= mat[i-1][j]
+                    if j>0:
+                        mat[i][j]+= mat[i][j-1] 
+                    if i>0 and j>0:
+                        mat[i][j]+= mat[i-1][j-1]
+        print(mat[n-1][m-1] % mod)
