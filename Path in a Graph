@@ -1,0 +1,85 @@
+Path in a Graph:
+
+Given an undirected graph, you have to find if there exists a path between 2 given nodes of the graph.
+
+Input Format
+The first line of input contains T - number of test cases. First line of each test case contains N - number of nodes and M - number of edges. It is followed by M lines, each contains a pair (u,v) - denoting an undirected edge between node u and node v. The next line contains Q - number of queries. Its followed by Q lines, each contains a pair (S,D) - denoting an query to check if there exits a path between node S and node D.
+
+Output Format
+For each test case, first print the test case number as shown. For each query of a test case, print "Yes" if path exists between the nodes of the query, print "No" otherwise, separated by new line.
+
+Constraints
+1 <= T <= 1000
+1 <= N <= 100
+0 <= M, Q <= min(N*N, 100)
+1 <= u, v, S, D <= N
+
+Example
+Input
+2
+5 3
+1 3
+2 4
+3 2
+4
+1 5
+3 4
+4 5
+1 4
+10 9
+3 4
+5 1
+2 5
+4 6
+2 3
+6 3
+1 4
+8 9
+8 10
+5
+2 4
+8 4
+9 10
+10 5
+9 7
+
+Output
+Test Case #1:
+No
+Yes
+No
+Yes
+Test Case #2:
+Yes
+No
+Yes
+No
+No
+
+code:
+def DFS(S,D,G,visited):
+    if S==D:
+        return True
+    visited[S] = True
+    for neighbour in G[S]:
+        if not visited[neighbour]:
+            if DFS(neighbour,D,G,visited):
+                return True
+    return False
+T = int(input())
+for _ in range(T):
+    N,M = map(int,input().split())
+    G = [[] for _ in range(N+1)]
+    for i in range(M):
+        U,V = map(int,input().split())
+        G[U].append(V)
+        G[V].append(U)
+    Q = int(input())
+    print(f'Test Case #{_+1}:')
+    for _ in range(Q):
+        S,D = map(int,input().split())
+        visited = [False]*(N+1)
+        if DFS(S,D,G,visited):
+            print("Yes")
+        else:
+            print("No")
