@@ -1,0 +1,47 @@
+Path in a Matrix Hard:
+
+Given a grid of size MxN with 1-based indexing, find the number of ways to reach (M, N) from (1,1) if you can move only to (i+1,j) or (i,j+1) from (i,j).
+
+Input Format
+The first line of input contains T - number of test cases, it is followed by T lines each containing 2 integers M and N.
+
+Output Format
+For each test case, print the number of ways to reach (M, N) from (1,1), separated by new line. Since the output can be very large, print output % 1000000007.
+
+Constraints
+50 points
+1 <= T <= 104
+1 <= M, N <= 1000
+
+100 points
+1 <= T <= 104
+1 <= M, N <= 106
+
+Example
+Input
+2
+2 5
+2 3
+
+Output
+5
+3
+
+code:
+mod = 10**9+7
+MAX =  2*(10**6)+5
+fact = [1]*MAX
+inv_fact = [1]*MAX
+for i in range(1,MAX):
+    fact[i] = fact[i-1]*i % mod
+inv_fact[MAX-1] = pow(fact[MAX-1],mod-2,mod)
+for i in range(MAX-2,-1,-1):
+    inv_fact[i] = inv_fact[i+1]*(i+1) % mod
+def nCr(n,r):
+    if r<0 or r>n:
+        return 0
+    return fact[n] * inv_fact[r] % mod * inv_fact[n-r] % mod
+t = int(input())
+for _ in range(t):
+    m,n = map(int,input().split())
+    print(nCr(m+n-2,m-1))
