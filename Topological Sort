@@ -1,0 +1,64 @@
+Topological Sort:
+
+You are given a Directed Acyclic Graph (DAG) with N vertices and M edges. Your task is to implement a topological sorting algorithm to find a linear ordering of vertices such that for every directed edge u - v, vertex u comes before v in the ordering.
+
+Input Format
+The first line contains an integer T - number of test cases. For each test case, the first line contains N - number of nodes, and M - number of edges. It is followed by M lines, each line contain (u, v) - denoting an directed edge from node u to node v.
+
+Output Format
+For each test case, output a single line containing the vertices in topological order, separated by space, in lexicographical order.
+
+Constraints
+1 <= T <= 100
+1 <= N <= 105
+1 <= u, v <= N
+
+Example
+Input
+2
+7 6
+3 1
+1 4
+4 6
+7 4
+5 7
+7 2
+6 5
+2 1
+5 6
+4 1
+3 6
+6 2
+
+Output
+3 1 5 7 2 4 6
+3 4 5 6 2 1
+
+code:
+import heapq
+from collections import defaultdict
+def topological_sort(adj,n,m,in_degree):
+    heap = []
+    for i in range(1,n+1):
+        if in_degree[i]==0:
+            heapq.heappush(heap,i)
+    ans = []
+    while heap:
+        u = heapq.heappop(heap)
+        ans.append(u)
+        for v in adj[u]:
+            in_degree[v]-=1
+            if in_degree[v]==0:
+                heapq.heappush(heap,v)
+    return ans
+t = int(input())
+for _ in range(t):
+    n,m = map(int,input().split())
+    adj = defaultdict(list)
+    in_degree = [0]*(n+1)
+    for _ in range(m):
+        u,v = map(int,input().split())
+        adj[u].append(v)
+        in_degree[v]+=1
+    res = topological_sort(adj,n,m,in_degree)
+    print(*res)
