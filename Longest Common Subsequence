@@ -1,0 +1,66 @@
+Longest Common Subsequence:
+
+Given two strings S1 and S2, find the length of Longest Common Subsequence.
+
+Input Format
+The first line of input contains T - number of test cases. Its followed by 3T lines. The first line of each test case contains N and M - size of the S1 and S2. The second line contains S1 and third line contains S2.
+
+Output Format
+For each test case, print the length of Longest Common Subsequence.
+
+Constraints
+30 points
+1 <= N,M <= 10
+
+70 points
+1 <= N, M <= 1000
+
+General Constraints
+1 <= T <= 100
+'a' <= S1[i], S2[i] <= 'z'
+
+Example
+Input
+3
+6 11
+aabbcc
+aaabbbbcccc
+5 4
+apple
+kiwi
+8 6
+einstein
+genius
+
+Output
+6
+0
+3
+
+Explanation
+
+Test Case 1:
+Given string s1 = 'aabbcc' and string s2 = 'aaabbbbcccc', pick the whole s1 string since s1 is present in s2 in subsequence order. The length is 6.
+
+Test Case 2:
+If there are no common characters in the given strings, the length is 0.
+
+Test Case 3:
+For s1 = 'einstein' and s2 = 'genius', the longest common subsequence is 'eni', with a length of 3.
+
+code:
+def longest_common_subequence(N,M,S1,S2):
+    dp = [[0]*(M+1) for _ in range(N+1)]
+    for i in range(1,N+1):
+        for j in range(1,M+1):
+            if S1[i-1]==S2[j-1]:
+                dp[i][j] = dp[i-1][j-1] + 1
+            else:
+                dp[i][j] = max(dp[i-1][j],dp[i][j-1])
+    return dp[N][M]
+T = int(input())
+for _ in range(T):
+    N,M = map(int,input().split())
+    S1 = input().strip()
+    S2 = input().strip()
+    print(longest_common_subequence(N,M,S1,S2))
