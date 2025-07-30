@@ -1,0 +1,69 @@
+Bitonic Sequence:
+
+Given an array of integers, find the length of the longest bitonic sequence. A subsequence is called Bitonic if it is first increasing (non-decreasing, i.e., not strictly increasing), and then decreasing 
+(non-increasing, i.e., not strictly decreasing).
+
+Note: A sequence, sorted in increasing order is considered Bitonic with the decreasing part as empty. Similarly, decreasing order sequence is considered Bitonic with the increasing part as empty.
+
+Input Format
+The first line of input contains T - number of test cases. It is followed by 2T lines, the first line contains N - the size of the array. The second line contains the elements of the array.
+
+Output Format
+For each test case, print the length of the longest bitonic sequence, separated by new line.
+
+Constraints
+1 <= T <= 100
+1 <= N <= 1000
+-10000 <= A[i] <= 10000
+
+Example
+Input
+3
+5
+4 15 -10 11 8
+7
+15 -5 7 7 6 12 -3
+10
+1 5 1 3 8 5 1 3 4 3
+
+Output
+4
+5
+7
+
+Explanation
+
+Example 1:
+4 15 11 8 : 4
+
+Example 2:
+-5 7 7 6 -3 : 5, or
+-5 7 7 12 -3 : 5
+
+Example 3:
+1 1 3 8 5 3 3 : 7
+
+code:
+def bitonic_sequence(n,a):
+    inc = [1]*n
+    dec = [1]*n
+    for i in range(n):
+        for j in range(i):
+            if a[i]>=a[j] and inc[i]<inc[j]+1:
+                inc[i] = inc[j] + 1
+    for i in range(n-2,-1,-1):
+        for j in range(n-1,i,-1):
+            if a[i]>=a[j] and dec[i]<dec[j]+1:
+                dec[i] = dec[j] + 1
+    max_len = 0
+    for i in range(n):
+        max_len = max(max_len,inc[i]+dec[i]-1)
+    return max_len
+t = int(input())
+ans = []
+for _ in range(t):
+    n = int(input())
+    a = list(map(int,input().split()))
+    ans.append(bitonic_sequence(n,a))
+for i in ans:
+    print(i)
