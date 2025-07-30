@@ -1,0 +1,52 @@
+Rank of String:
+
+Given a string without duplicates, find its rank (position) in all the permutations of the string when sorted lexicographically.
+
+Input Format
+The first line of input contains T - the number of test cases. It's followed by T lines, each containing a single string consisting of only lowercase English alphabets.
+
+Output Format
+For each test case, print the rank of the given string, separated by a new line.
+
+Constraints
+30 points
+1 <= T <= 100
+1 <= len(str) <= 10
+
+70 points
+1 <= T <= 1000
+1 <= len(str) <= 20
+
+Example
+Input
+3
+cba
+smart
+algorithms
+
+Output
+6
+79
+123523
+
+code:
+def factorial(n):
+    if n==0:
+        return 1
+    ans = 1
+    for i in range(1,n+1):
+        ans *= i
+    return ans
+t = int(input())
+for _ in range(t):
+    s = input().strip()
+    n = len(s)
+    fact_s = [factorial(i) for i in range(n+1)]
+    rank = 1
+    for i in range(n):
+        count = 0
+        for j in range(i+1,n):
+            if s[j]<s[i]:
+                count += 1
+        rank += count * fact_s[n-1-i]
+    print(rank)
