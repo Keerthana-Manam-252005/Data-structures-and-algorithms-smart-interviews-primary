@@ -8,11 +8,6 @@ The first line of input contains T - number of test cases. It's followed by 3T l
 Output Format
 For each test case, print the maximum number of non-overlapping activities, separated by new line.
 
-Constraints
-1 <= T <= 1000
-1 <= N <= 1000
-0 <= S[i] < F[i] <= 86400
-
 Example
 Input
 3
