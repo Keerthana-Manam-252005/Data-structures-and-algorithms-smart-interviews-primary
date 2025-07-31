@@ -9,17 +9,6 @@ The first line of input contains T - the number of test cases. It's followed by 
 Output Format
 For each test case, print AB, separated by new line. Since the result can be very large, print result % 1000000007
 
-Constraints
-30 points
-1 <= T <= 1000
-0 <= A <= 106
-0 <= B <= 103
-
-70 points
-1 <= T <= 1000
-0 <= A <= 106
-0 <= B <= 109
-
 Example
 Input
 4
