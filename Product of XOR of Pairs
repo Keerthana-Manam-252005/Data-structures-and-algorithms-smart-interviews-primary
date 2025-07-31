@@ -1,0 +1,65 @@
+Product of XOR of Pairs:
+
+Given an array of size N, find the product of XOR of all good pairs in the array. A pair (A[i],A[j]) is called good only when 0 <= i < j < N.
+Since the product of good pairs might be too large, hence print product % 1e9+7.
+
+Input Format
+The first line of input contains T - number of test cases. The first line of each test case contains N - the size of the array.
+The second line of each test case contains the N elements.
+
+Output Format
+Print the product of XOR of all good pairs in the array.
+
+Constraints
+30 points
+2 <= N <= 103
+
+70 points
+2 <= N <= 105
+
+General Constraints
+1 <= T <= 10
+1 <= A[i] <= 3000
+
+Example
+Input
+2
+4
+1 2 3 7
+3
+4 3 7
+
+Output
+720
+84
+
+Explanation
+Example 1: (1^2) * (1^3) * (1^7) * (2^3) * (2^7) * (3^7) = 720
+
+code:
+from collections import Counter
+MOD = 1000000007
+def product_of_XOR_of_pairs(n,a):
+    freq = Counter(a)
+    keys = sorted(freq.keys())
+    ans = 1
+    for i in range(len(keys)):
+        x = keys[i]
+        fx = freq[x]
+        for j in range(i+1,len(keys)):
+            y = keys[j]
+            fy = freq[y]
+            count = fx * fy
+            xor = x^y
+            ans = (ans*pow(xor,count,MOD))%MOD
+    for x in keys:
+        fx = freq[x]
+        count = fx * (fx-1) // 2
+        if count>0:
+            return 0
+    return ans
+t = int(input())
+for _ in range(t):
+    n = int(input())
+    a = list(map(int,input().split()))
+    print(product_of_XOR_of_pairs(n,a))
