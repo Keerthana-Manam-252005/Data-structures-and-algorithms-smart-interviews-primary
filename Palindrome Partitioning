@@ -1,0 +1,91 @@
+Palindrome Partitioning:
+
+Given a string, a partitioning of the string is called palindrome partitioning, if every partition is a palindrome in itself. For example, "aba | b | bbabb | a | b | aba" is a palindrome partitioning of 
+"ababbbabbababa". Your task is to find the minimum cuts needed for palindromic partitioning of a given string.
+
+Input Format
+The first line of input contains T - number of test cases. It is followed by 2T lines. The first line contains N - the size of the string and the second line contains a string of size N.
+
+Output Format
+For each test case, print the minimum cuts needed for palindromic partitioning, separated by new line.
+
+Constraints
+80 points
+1 <= T <= 100
+'a' <= S[i] <= 'z'
+1 <= size(S) <= 100
+
+120 points
+1 <= T <= 100
+'a' <= S[i] <= 'z'
+1 <= size(S) <= 1000
+
+Example
+Input
+4
+6
+bababa
+5
+madam
+14
+ababbbabbababa
+10
+yttwttwttf
+
+Output
+1
+0
+3
+2
+
+Explanation
+Example 1:
+"bab | aba" : 1 cut
+Example 2:
+"madam" : 0 cut
+Example 3:
+"a | babbbab | bab | aba" : 3 cuts
+Example 4:
+"y | ttwttwtt | f" : 2 cuts
+
+solution:
+Let s be the input string of length n.
+Step 1: Precompute palindrome substrings
+  Create a 2D array is_palindrome[i][j] where:
+  is_palindrome[i][j] = True if s[i..j] is a palindrome.
+  This is computed in O(n^2) time.
+Step 2: Compute minimum cuts
+  Use a 1D array dp[i]:
+  dp[i] is the minimum number of cuts needed to partition s[0..i].
+  Recurrence:
+  If s[0..i] is a palindrome → dp[i] = 0
+  Else:
+  dp[i] = min(dp[j] + 1) for all j < i where s[j+1..i] is a palindrome
+This also takes O(n^2) time.
+
+code:
+def palidrome_partitioning(n,s):
+    pal = [[False]*n for _ in range(n)]
+    for i in range(n):
+        pal[i][i] = True
+    for i in range(n-1):
+        pal[i][i+1]=(s[i]==s[i+1])
+    for i in range(3,n+1):
+        for j in range(n-i+1):
+            k = j+i-1
+            pal[j][k] = (s[j]==s[k] and pal[j+1][k-1])
+    dp = [0]*n
+    for i in range(n):
+        if pal[0][i]:
+            dp[i] = 0
+        else:
+            dp[i] = float('inf')
+        for j in range(i):
+            if pal[j+1][i]:
+                dp[i] = min(dp[i],dp[j]+1)
+    return dp[n-1]
+t = int(input())
+for _ in range(t):
+    n = int(input())
+    s = input().strip()
+    print(palidrome_partitioning(n,s))
