@@ -1,0 +1,67 @@
+Maze of Puzzles:
+
+You are inside a maze of size NxM. Each square in the maze contains a puzzle with a difficulty level of mat[i][j]. Your task is to enter the maze on (1,1) and make your way to the exit gate on (N,M), solving puzzles on the way. From the current cell, you can move only to the adjacent cell in East, South or South-East direction i.e., from (i,j) to either (i,j+1), (i+1,j) or (i+1,j+1), provided you solve the puzzle at the current cell.
+However, your capacity for solving puzzles is limited. You cannot solve puzzles if their combined difficulty level crosses K. Also, being a programmer, you love challenges and try to chose a path which maximizes the combined difficulty level of the solved puzzles, within K.
+
+Input Format
+The first line contains T - number of testcases. The first line of each test case contains 3 space-separated integers - N, M, K. Each of the following N lines contain M space-separated integers, denoting the difficulty level of the puzzles in the maze.
+
+Output Format
+For each test case, print the maximum combined difficulty level of the solved puzzles on your path, or "-1" (without the quotes) if you cannot make it to the exit, separate by new line.
+
+Constraints
+1 <= T <= 50
+1 <= N, M <= 100
+1 <= K <= 200
+1 <= mat[i][j] <= 50
+
+Example
+Input
+2
+3 3 10
+2 5 1
+6 1 9
+8 2 3
+3 4 15
+2 8 4 1
+6 5 5 3
+5 1 7 4
+
+Output
+8
+-1
+
+Explanation
+Example 1:
+The following path gives maximum difficulty level within k=10.
+[2] 5 1
+6 [1] 9
+8 [2] [3]
+
+code:
+from collections import deque
+def maze_of_puzzles(N,M,K,mat):
+    dp = [[[-1]*(K+1) for _ in range(M)] for _ in range(N)]
+    if mat[0][0]>K:
+        return -1
+    dp[0][0][mat[0][0]] = mat[0][0]
+    for i in range(N):
+        for j in range(M):
+            for k in range(K+1):
+                if dp[i][j][k] == -1:
+                    continue
+                if j+1<M and k+mat[i][j+1]<=K:
+                    dp[i][j+1][k+mat[i][j+1]] = max(dp[i][j+1][k+mat[i][j+1]], k+mat[i][j+1])
+                if i+1<N and k+mat[i+1][j]<=K:
+                    dp[i+1][j][k+mat[i+1][j]] = max(dp[i+1][j][k+mat[i+1][j]], k+mat[i+1][j])
+                if i+1<N and j+1<M and k+mat[i+1][j+1]<=K:
+                    dp[i+1][j+1][k+mat[i+1][j+1]] = max(dp[i+1][j+1][k+mat[i+1][j+1]], k+mat[i+1][j+1])
+    max_val = max(dp[N-1][M-1])
+    return max_val if max_val!=-1 else -1
+t = int(input())
+for _ in range(t):
+    N,M,K = list(map(int,input().split()))
+    mat = []
+    for _ in range(N):
+        mat.append(list(map(int,input().split())))
+    print(maze_of_puzzles(N,M,K,mat))
